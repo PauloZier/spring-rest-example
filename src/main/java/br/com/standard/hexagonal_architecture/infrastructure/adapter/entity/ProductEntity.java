@@ -28,6 +28,10 @@ public class ProductEntity {
 
     private Integer quantity;
 
+    public ProductEntity() {
+        
+    }
+
     public ProductEntity(String id, String description, String sku, Double price, Integer quantity) {
 
         if (id.isEmpty() || id.isBlank())
@@ -62,10 +66,10 @@ public class ProductEntity {
 
     public ProductEntity(Product product) {
 
-        if (product.getId() == null || product.getId().toString().isBlank())
-            this.id = product.getId().toString();
-        else
+        if (product.getId() == null)
             this.id = UUID.randomUUID().toString();
+        else
+            this.id = product.getId().toString();
 
         this.sku = product.getSku();
         this.description = product.getDescription();

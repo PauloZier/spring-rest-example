@@ -15,6 +15,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public @ResponseBody ErrorMessage handle(NotFoundException ex) {
-        return new ErrorMessage(HttpStatus.NOT_FOUND.value(), null);
+        return new ErrorMessage(HttpStatus.NOT_FOUND.value(), "Not Found!");
     }
 }

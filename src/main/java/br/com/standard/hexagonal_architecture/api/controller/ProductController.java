@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.standard.hexagonal_architecture.domain.dto.ProductDto;
 import br.com.standard.hexagonal_architecture.domain.dto.UpdateProductPriceDto;
 import br.com.standard.hexagonal_architecture.domain.ports.interfaces.ProductService;
+import jakarta.transaction.Transactional;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -26,7 +28,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequestMapping(ProductController.PATH)
 public class ProductController {
     
-    private static final String PATH = "/product";
+    public static final String PATH = "/product";
 
     private final ProductService service;
 
@@ -52,7 +54,7 @@ public class ProductController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto product) {
         service.create(product);
-        var uri = URI.create(product.getSku());
+        var uri = URI.create(PATH + "/" + product.getSku());
         return ResponseEntity.created(uri).body(product);
     }
 
@@ -70,6 +72,7 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
+    @Transactional
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{sku}")
     public ResponseEntity<Object> deleteProduct(@RequestParam String sku) {

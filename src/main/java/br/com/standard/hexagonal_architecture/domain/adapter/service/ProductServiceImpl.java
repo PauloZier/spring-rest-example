@@ -34,6 +34,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void updatePrice(UpdateProductPriceDto updatePrice) {
         var product = repository.findBySku(updatePrice.getSku());
+        product.updatePrice(updatePrice.getPrice());
         repository.save(product);
     }
 
