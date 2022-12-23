@@ -10,10 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.standard</groupId>
-	<artifactId>hexagonal_architecture</artifactId>
+	<artifactId>spring_rest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>hexagonal_architecture</name>
-	<description>Demo project for Spring Boot</description>
+	<name>spring_rest</name>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -38,6 +37,10 @@
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
 		</dependency>
 
 		<dependency>
