@@ -29,52 +29,52 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ProductController {
     
     public static final String PATH = "/product";
-
+    
     private final ProductService service;
 
     public ProductController(ProductService service) {
         this.service = service;
     }
 
+    @GetMapping
     @ResponseStatus(value = HttpStatus.OK)
-    @GetMapping(produces =  { MediaType.APPLICATION_JSON_VALUE , MediaType.APPLICATION_XML_VALUE })
     public ResponseEntity<List<ProductDto>> getAll() {
         var list = service.getProducts();
         return ResponseEntity.ok(list);
     }
 
+    @GetMapping(value="/{sku}")
     @ResponseStatus(value = HttpStatus.OK)
-    @GetMapping(value="/{sku}", produces = { MediaType.APPLICATION_JSON_VALUE , MediaType.APPLICATION_XML_VALUE })
     public ResponseEntity<ProductDto> getBySku(@PathVariable String sku) {
         var product = service.getBySku(sku);
         return ResponseEntity.ok(product);
     }
 
+    @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = { MediaType.APPLICATION_JSON_VALUE , MediaType.APPLICATION_XML_VALUE })
     public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto product) {
         service.create(product);
         var uri = URI.create(PATH + "/" + product.getSku());
         return ResponseEntity.created(uri).body(product);
     }
 
+    @PutMapping(value = "/{sku}")
     @ResponseStatus(value = HttpStatus.ACCEPTED)
-    @PutMapping(value = "/{sku}", consumes = { MediaType.APPLICATION_JSON_VALUE , MediaType.APPLICATION_XML_VALUE }, produces = { })
     public ResponseEntity<ProductDto> updateProduct(@PathVariable String sku, @RequestBody ProductDto product) {
         service.update(sku, product);
         return ResponseEntity.accepted().body(product);
     }
 
+    @PatchMapping(value = "/{sku}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @PatchMapping(value = "/{sku}", consumes = { MediaType.APPLICATION_JSON_VALUE , MediaType.APPLICATION_XML_VALUE })
     public ResponseEntity<Object> updateProductPrice(@PathVariable String sku, @RequestBody UpdateProductPriceDto product) {
         service.updatePrice(product);
         return ResponseEntity.noContent().build();
     }
 
     @Transactional
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{sku}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public ResponseEntity<Object> deleteProduct(@PathVariable String sku) {
         service.delete(sku);
         return ResponseEntity.noContent().build();
